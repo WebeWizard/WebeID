@@ -1,0 +1,15 @@
+[package]
+name = "webe_id"
+version = "0.1.0"
+authors = ["WebeWizard <webewizard@gmail.com>"]
+edition = "2018"
+description = "Unique ID generator based on Snowflake, but for us wizards"
+homepage = "https://webewizard.com"
+repository = "https://github.com/WebeWizard/WebeID"
+keywords = ["ID", "Unique", "Snowflake"]
+readme = "README.md"
+license-file = "LICENSE"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
