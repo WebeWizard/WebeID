@@ -4,9 +4,9 @@ Unique ID generator based on Snowflake, but for us wizards
 
 ## A 64bit unique ID
 ### Definition
-5 bytes - time in milliseconds since custom epoch.  (total of 34.84 years)
-1 byte - node id (total of 256 nodes)
-2 bytes - incrementing sequence number
+5 bytes - time in milliseconds since custom epoch.  (total of 34.84 years)  
+1 byte - node id (total of 256 nodes)  
+2 bytes - incrementing sequence number  
 
 ## Assumptions made for this ID
  - Technology will quickly advance to the point where 128bit IDs (like GUID) will be acceptably performant in extremely large database tables.
@@ -16,8 +16,8 @@ Unique ID generator based on Snowflake, but for us wizards
    - Use of these IDs is unlikely to outlive the max time frame
 
 ## Advantages
- - Supports fast id creation, up to 65536 id's per millisecond.
-   - I wanted this number to be really big, since my slightly overclocked 3.8GHZ i5-7600 on Pop-OS 19.10 (Ubuntu derivative) can create a new ID in about 500nanoseconds.
+ - Supports fast id creation, up to 65536 id's per node per millisecond.
+   - I wanted this number to be really big, since my 3.8GHZ i5-7600 on Pop-OS 19.10 (Ubuntu derivative) can create a new ID in about 500nanoseconds.
      - That's about 2000 IDs per millisecond. So plenty of room to grow as CPUs get faster *without needing more nodes*.
  - Data sections are divisible on common 8bit byte boundaries,
    - Parsing sections does not require bit operations. Convert to big-endian byte array with ".to_be_bytes()" and then use the slice indexes 0-4, 5, 6-7
