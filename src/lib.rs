@@ -4,7 +4,7 @@ pub type WebeID = u64;
 
 pub struct WebeIDFactory {
     epoch: SystemTime,
-    last_duration_ms: u128,
+    last_duration_ms: u64,
     node_id: u64,
     sequence: u16,
 }
@@ -45,12 +45,12 @@ impl WebeIDFactory {
         if SystemTime::now().duration_since(epoch)?.as_millis() <= last_duration_ms as u128 {
             return Err(WebeIDError::BadLastDuration);
         }
-        factory.last_duration_ms = last_duration_ms as u128;
+        factory.last_duration_ms = last_duration_ms;
         return Ok(factory);
     }
 
     pub fn next(&mut self) -> Result<WebeID, WebeIDError> {
-        let cur_duration_ms = SystemTime::now().duration_since(self.epoch)?.as_millis();
+        let cur_duration_ms = SystemTime::now().duration_since(self.epoch)?.as_millis() as u64;
         // for security - verify time has not gone backwards since factory was created.
         if cur_duration_ms < self.last_duration_ms {return Err(WebeIDError::TimeRewind)}
         if cur_duration_ms > self.last_duration_ms {self.sequence = 0} // reset sequence
@@ -61,6 +61,14 @@ impl WebeIDFactory {
             None => return Err(WebeIDError::SequenceOverflow)
         }
         return Ok(new_id);   
+    }
+
+    pub fn epoch(&self) -> SystemTime {
+        return self.epoch;
+    }
+
+    pub fn last_duration_ms(&self) -> u64 {
+        return self.last_duration_ms;
     }
 }
 
